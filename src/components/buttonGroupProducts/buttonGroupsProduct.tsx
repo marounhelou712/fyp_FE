@@ -31,6 +31,8 @@ const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
     const [category, setCategory] = React.useState<Array<Product>>(listOfProducts_14)
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
+    const [token, setToken] = React.useState();
+
     // React.useEffect(() => {
     //     console.log(category);
     // }, [category])
@@ -38,6 +40,38 @@ const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
     const handleClick = (e: Array<Product>) => {
         setIsLoading(true);
         setCategory(e);
+    }
+
+    async function handleAPICALL()  {
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json; charset=utf-8', 
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Authorization': 'Bearer ' + token 
+        }}
+        fetch("http://localhost:8080/api/clients", requestOptions)
+        .then(response => response.json())
+        .then(data => console.log(data))
+    }
+
+    async function handleLOGIN() {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8', 
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        },
+            body: JSON.stringify({
+                "username": "admin",
+                "password": "admin"
+              })
+        };
+
+        fetch('http://localhost:8080/api/authenticate', requestOptions)
+        .then(response => response.json())
+        .then(data => {setToken(data.id_token);
+        console.log(data.id_token)});
     }
 
     React.useEffect(() => {
@@ -55,6 +89,8 @@ const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
                     aria-label="vertical contained button group"
                     variant="text"
                     >
+                    <Button onClick={handleLOGIN}> LOGIN </Button>
+                    <Button onClick={handleAPICALL}> test API </Button>
                     <Button onClick={(e) => handleClick(props.recommendedProducts)}> Recommended Products</Button>
                     <Button onClick={(e) => handleClick(listOfProducts_1)}> {listOfProducts_1[0].category_code} </Button>
                     <Button onClick={(e) => handleClick(listOfProducts_2)}> {listOfProducts_2[0].category_code} </Button>

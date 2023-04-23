@@ -71,6 +71,8 @@ const  App = () => {
               product_id: 67280,
               price: 34.62
             }]}/>
+
+            {/* <LogIn/> */}
     </div>
   );
 }
