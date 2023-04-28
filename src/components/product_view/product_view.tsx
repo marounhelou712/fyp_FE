@@ -7,6 +7,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 
 const ProductView = (props: Product) => {
 
@@ -56,8 +57,8 @@ const ProductView = (props: Product) => {
                     </Grid>
                     <Grid item xs={2}>
                         <Tooltip title="Interract">
-                            <IconButton onClick={handleClick} sx={{color: 'red'}}>
-                                <AddIcon/>
+                            <IconButton onClick={handleClick} sx={{color: '#b8860b'}}>
+                                <PendingActionsIcon/>
                             </IconButton>
                         </Tooltip>
                     </Grid>

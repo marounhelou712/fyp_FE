@@ -17,21 +17,28 @@ import {
  } from '../../components/list_of_products';
  import {   Button, 
             Grid,
-            ButtonGroup 
+            ButtonGroup, 
+            Divider,
+            Avatar,
+            IconButton
         } from '@mui/material';
 
 import ListOfProducts from '../../components/recommendation/listOfProducts';
 import { Product } from '../../components/types/types';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { findProduct } from '../function.services';
 
 
 
-const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
+const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
 
     const [category, setCategory] = React.useState<Array<Product>>(listOfProducts_14)
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
     const [token, setToken] = React.useState();
+    let navigate = useNavigate();
 
     // React.useEffect(() => {
     //     console.log(category);
@@ -80,8 +87,27 @@ const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
         }
     }, [isLoading])
 
+    const handleLogout = () =>{
+        navigate('/');
+    }
+
+    const testFunction = () => {
+        console.log(findProduct(1))
+    }
+
 
     return (
+        <>
+        <div 
+        style={{backgroundColor: '#a9a0a0'}}
+        >
+            <div style={{ paddingLeft: '95%'}}>
+            <IconButton sx={{color:'#b8860b' }}>
+                <LogoutIcon onClick={handleLogout}/>
+            </IconButton>
+            </div>
+        </div>
+        <Divider/>
         <Grid container>
             <Grid item xs={2}>
                 <ButtonGroup
@@ -89,9 +115,10 @@ const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
                     aria-label="vertical contained button group"
                     variant="text"
                     >
-                    <Button onClick={handleLOGIN}> LOGIN </Button>
-                    <Button onClick={handleAPICALL}> test API </Button>
-                    <Button onClick={(e) => handleClick(props.recommendedProducts)}> Recommended Products</Button>
+                    {/* <Button onClick={handleLOGIN}> LOGIN </Button>
+                    <Button onClick={handleAPICALL}> test API </Button> */}
+                    {/* <Button onClick={testFunction}> TEST FUNCTION </Button> */}
+                    {/* <Button onClick={(e) => handleClick(props.recommendedProducts)}> Recommended Products</Button> */}
                     <Button onClick={(e) => handleClick(listOfProducts_1)}> {listOfProducts_1[0].category_code} </Button>
                     <Button onClick={(e) => handleClick(listOfProducts_2)}> {listOfProducts_2[0].category_code} </Button>
                     <Button onClick={(e) => handleClick(listOfProducts_3)}> {listOfProducts_3[0].category_code} </Button>
@@ -118,6 +145,7 @@ const GroupButton = (props: {recommendedProducts: Array<Product>}) => {
                 }
             </Grid>
         </Grid>
+        </>
 
     )
 }
