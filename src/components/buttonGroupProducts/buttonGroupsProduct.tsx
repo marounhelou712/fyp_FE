@@ -35,21 +35,53 @@ import { findProduct } from '../function.services';
 const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
 
     const [category, setCategory] = React.useState<Array<Product>>(listOfProducts_14)
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+
+    const [recuRecommendation, setRecuRecommendation] = React.useState<Array<number>>([]);
+
+    const [recommendedProducts, setRecommendedProducts] = React.useState<{
+        "category_code": string,
+        "category_id": number,
+        "sub_category_code": string,
+        "sub_category_id": number,
+        "brand": string,
+        "product_id": number,
+        "price": number
+      }[]>([]);
+
 
     const [token, setToken] = React.useState();
     let navigate = useNavigate();
 
-    // React.useEffect(() => {
-    //     console.log(category);
-    // }, [category])
+
+    React.useEffect(() => {
+        setRecommendedProducts((prev) => {
+            const newArr: Array<{
+                "category_code": string,
+                "category_id": number,
+                "sub_category_code": string,
+                "sub_category_id": number,
+                "brand": string,
+                "product_id": number,
+                "price": number
+              }> = []; 
+
+            recuRecommendation.forEach(element => {
+                const res = findProduct(element);
+                newArr.push(res);
+            });
+
+            return newArr;
+        })
+    }, [recuRecommendation])
 
     const handleClick = (e: Array<Product>) => {
         setIsLoading(true);
         setCategory(e);
     }
 
-    async function handleAPICALL()  {
+    async function handleRecommendation() {
         const requestOptions = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset=utf-8', 
@@ -57,10 +89,25 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
             'Access-Control-Allow-Origin': 'http://localhost:3000',
             'Authorization': 'Bearer ' + token 
         }}
-        fetch("http://localhost:8080/api/clients", requestOptions)
+
+        fetch("http://localhost:8080/api/recommendation", requestOptions)
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => setRecuRecommendation(data))
     }
+
+
+    // async function handleAPICALL()  {
+    //     const requestOptions = {
+    //         method: 'GET',
+    //         headers: { 'Content-Type': 'application/json; charset=utf-8', 
+    //         'Accept': 'application/json',
+    //         'Access-Control-Allow-Origin': 'http://localhost:3000',
+    //         'Authorization': 'Bearer ' + token 
+    //     }}
+    //     fetch("http://localhost:8080/api/clients", requestOptions)
+    //     .then(response => response.json())
+    //     .then(data => console.log(data))
+    // }
 
     async function handleLOGIN() {
         const requestOptions = {
@@ -115,10 +162,17 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
                     aria-label="vertical contained button group"
                     variant="text"
                     >
-                    {/* <Button onClick={handleLOGIN}> LOGIN </Button>
-                    <Button onClick={handleAPICALL}> test API </Button> */}
+                    <Button onClick={handleLOGIN}> LOGIN </Button>
+                    <Button onClick={handleRecommendation}> Generate Recommendation </Button>
                     {/* <Button onClick={testFunction}> TEST FUNCTION </Button> */}
-                    {/* <Button onClick={(e) => handleClick(props.recommendedProducts)}> Recommended Products</Button> */}
+
+
+                    <Button 
+                    onClick={(e) => handleClick(recommendedProducts)}
+                    > Recommended Products</Button>
+
+
+
                     <Button onClick={(e) => handleClick(listOfProducts_1)}> {listOfProducts_1[0].category_code} </Button>
                     <Button onClick={(e) => handleClick(listOfProducts_2)}> {listOfProducts_2[0].category_code} </Button>
                     <Button onClick={(e) => handleClick(listOfProducts_3)}> {listOfProducts_3[0].category_code} </Button>
