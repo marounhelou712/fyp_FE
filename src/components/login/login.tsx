@@ -40,6 +40,7 @@ const SignInSide = () => {
         fetch('http://localhost:8080/api/authenticate', requestOptions)
         .then(response => response.json())
         .then(data => {setToken(data.id_token);
+        localStorage.setItem('access_token', data.id_token);
         console.log(data.id_token)});
     }
 
@@ -122,7 +123,11 @@ const SignInSide = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleLogin}
-                onKeyDown={handleKeyDown}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleLogin();
+                  }
+                }}
               >
                 Log in
               </Button>

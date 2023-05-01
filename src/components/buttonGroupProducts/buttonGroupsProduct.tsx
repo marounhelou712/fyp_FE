@@ -40,6 +40,8 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
     const [token, setToken] = React.useState();
     let navigate = useNavigate();
 
+    const accessToken = localStorage.getItem('access_token');
+
     // React.useEffect(() => {
     //     console.log(category);
     // }, [category])
@@ -55,7 +57,7 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
             headers: { 'Content-Type': 'application/json; charset=utf-8', 
             'Accept': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:3000',
-            'Authorization': 'Bearer ' + token 
+            'Authorization': 'Bearer ' + accessToken 
         }}
         fetch("http://localhost:8080/api/clients", requestOptions)
         .then(response => response.json())
