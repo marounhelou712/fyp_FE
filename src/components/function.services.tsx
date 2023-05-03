@@ -41,3 +41,7 @@ export const findProduct = (productID: number) => {
 
     return undefined;
 }
+
+export const getSubCategory = (sub: string): string => {
+    return sub.split(".").pop()!;
+}

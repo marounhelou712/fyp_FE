@@ -14,9 +14,11 @@ const ListOfProducts = (props: Products) => {
                     <Grid item key={index} xs={12} sm={6} md={4}>
                         <ProductView 
                             category_code={each.category_code}
+                            category_id={each.category_id}
                             sub_category_code={each.sub_category_code}
                             brand={each.brand}
                             price={each.price}
+                            recommended={props.recommended}
                             product_id={each.product_id}
                             />
                     </Grid>
