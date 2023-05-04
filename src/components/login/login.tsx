@@ -48,7 +48,7 @@ const SignInSide = () => {
         console.log(user);
         console.log(password)
 
-        if ((user === "user") && (password==="pass")){
+        if ((user === "admin") && (password==="admin")){
             handleLOGIN(user, password);
             navigate(`/signedin`)
         }
