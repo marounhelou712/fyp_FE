@@ -162,7 +162,7 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
                         variant="text"
                         sx={{position: 'fixed'}} 
                     >
-                        <Button sx={{color: '#b8860b'}} onClick={handleLOGIN}> LOGIN </Button>
+                        {/* <Button sx={{color: '#b8860b'}} onClick={handleLOGIN}> LOGIN </Button> */}
                         <Button sx={{color: '#b8860b'}} onClick={handleRecommendation}> Generate Recommendation </Button>
  
                         <Button  sx={{color: activeButton === 0 ? 'red' : '#b8860b'}}
