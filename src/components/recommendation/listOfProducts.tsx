@@ -16,6 +16,7 @@ const ListOfProducts = (props: Products) => {
                             category_code={each.category_code}
                             category_id={each.category_id}
                             sub_category_code={each.sub_category_code}
+                            sub_category_id={each.sub_category_id}
                             brand={each.brand}
                             price={each.price}
                             recommended={props.recommended}

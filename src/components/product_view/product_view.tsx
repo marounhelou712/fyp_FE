@@ -37,6 +37,41 @@ const ProductView = (props: Product) => {
       setAnchorEl(null);
     };
 
+    const date = new Date();
+    const formattedDate = date.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, ' UTC');
+
+    const accessToken = localStorage.getItem('access_token');
+
+    async function PostInterraction(eventType: string, eventID: number) {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8', 
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Authorization': 'Bearer ' + accessToken,
+            },
+            body: JSON.stringify({
+                event_time: formattedDate,
+                event_type: eventType,
+                event_id: eventID,
+                category_code: props.category_code,
+                category_id: props.category_id,
+                sub_category_code: props.sub_category_code,
+                sub_category_id: props.sub_category_id,
+                brand: props.brand,
+                product_id: props.product_id,
+                price: props.price,
+                user_id: 1
+            })
+        }
+
+        fetch("http://localhost:8080/api/data", requestOptions)
+    }
+
+    const handleClickInteraction = (eventType: string, eventID: number) => {
+        PostInterraction(eventType, eventID);
+        handleClose();
+    }
 
     const [iconLogo, setIcon] = useState(<></>);
 
@@ -64,21 +99,21 @@ const ProductView = (props: Product) => {
         <div>
             <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
                 <MenuList>
-                    <MenuItem  onClick={handleClose}>
+                    <MenuItem  onClick={(e) => handleClickInteraction("view", 0)}>
                     <ListItemIcon>
                         <RemoveRedEyeIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>View</ListItemText>
                     </MenuItem>
 
-                    <MenuItem  onClick={handleClose}>
+                    <MenuItem  onClick={(e) => handleClickInteraction("cart", 1)}>
                     <ListItemIcon>
                         <ShoppingCartIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>Add to Cart</ListItemText>
                     </MenuItem>
 
-                    <MenuItem  onClick={handleClose}>
+                    <MenuItem  onClick={(e) => handleClickInteraction("purchase", 2)}>
                     <ListItemIcon>
                         <CheckIcon fontSize="small" />
                     </ListItemIcon>
