@@ -43,6 +43,8 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
     React.useEffect(() => {
         if (activeButton === 0) {
             setInRecommendedSection(true);
+        } else {
+            setInRecommendedSection(false);
         }
     }, [activeButton])
 
@@ -64,6 +66,7 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
 
 
     React.useEffect(() => {
+        if (recuRecommendation.length > 0) {
         setRecommendedProducts((prev) => {
             const newArr: Array<{
                 "category_code": string,
@@ -82,6 +85,7 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
 
             return newArr;
         })
+    }
     }, [recuRecommendation])
 
     const handleClick = (e: Array<Product>, index: number) => {
