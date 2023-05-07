@@ -127,6 +127,23 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
         console.log(data.id_token)});
     }
 
+    async function handleAccount() {
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json; charset=utf-8', 
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Authorization': 'Bearer ' + accessToken,
+        }
+        };
+
+        fetch('http://localhost:8080/api/account', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+                            console.log(data)
+                        });
+    }
+
     React.useEffect(() => {
         if (isLoading){
             setIsLoading(false);
@@ -164,14 +181,14 @@ const GroupButton = (props: {recommendedProducts?: Array<Product>}) => {
                         orientation="vertical"
                         aria-label="vertical contained button group"
                         variant="text"
-                        sx={{position: 'fixed'}} 
+                        sx={{position: 'fixed', width: '15%'}} 
                     >
-                        {/* <Button sx={{color: '#b8860b'}} onClick={handleLOGIN}> LOGIN </Button> */}
+                        <Button sx={{color: '#b8860b'}} onClick={handleAccount}> ACCOUNT </Button>
                         <Button sx={{color: '#b8860b'}} onClick={handleRecommendation}> Generate Recommendation </Button>
  
                         <Button  sx={{color: activeButton === 0 ? 'red' : '#b8860b'}}
                         onClick={(e) => handleClick(recommendedProducts, 0)}
-                        > Recommended Products</Button>
+                        >Recommended Products</Button>
 
 
                         <Button sx={{color: activeButton === 1 ? 'red' : '#b8860b'}} onClick={(e) => handleClick(listOfProducts_1, 1)}> {listOfProducts_1[0].category_code} </Button>
